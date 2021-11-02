@@ -1,59 +1,69 @@
-from Domain.cheltuiala import create_cheltuiala, get_id
+from copy import deepcopy
 
+from Domain.cheltuiala import *
+from Logic.validator import validate_cheltuiala
 
-def adaugare(lst_cheltuieli, id, nr_ap, suma, data, tip):
+def find_cheltuiala(cheltuieli, id):
     '''
-    Subprogramul adauga in lista "cheltuieli" noua cheltuiele cu datele introduse de utilizator
-    :param lst_cheltuieli: O lista de cheltuieli
-    :param id: Id ul cheltuielii
-    :param nr_ap: Nr. apartamentului noii cheltuieli
-    :param suma: Suma noii cheltuieli
-    :param data: Data noii cheltuieli
-    :param tip: Tipul acesteia
-    :return: O lista noua, obtinuta prin adaugarea noii cheltuielo
+    Find cheltuiala in cheltuieli with id
+    If not found, we return None
+    :param cheltuieli:
+    :param id:
+    :return:
     '''
-    new_cheltuiala = create_cheltuiala(id, nr_ap, suma, data, tip)
-    return lst_cheltuieli + [new_cheltuiala]
-
-def stergere(lst_cheltuieli, id):
-    '''
-    Sterge din lista cheltuiala cu un id al cheltuielii dat
-    :param lst_cheltuieli: O lista de cheltuieli
-    :param id: Id ul unei cheltuieli dat
-    :return: Lista obtinuta prin eliminarea cheltuielii anume
-    '''
-    result_cheltuieli = []
-    for cheltuiala in lst_cheltuieli:
-        if get_id(cheltuiala) != id:
-            result_cheltuieli.append(cheltuiala)
-    return result_cheltuieli
-
-def modif(cheltuieli, new_cheltuiala):
-    '''
-    Functia modifica (inlocuieste) cheltuiala pentru un anumit id de nr de aprtament cu o alta
-    :param lst_cheltuiali: O lista de cheltuieli
-    :param new_cheltuiala: Noua cheltuiala pentru un numar de apartament stiut
-    :return: Lista noua obtinuta prin inlocuire
-    '''
-    new_lst_cheltuiala = []
     for cheltuiala in cheltuieli:
-        if get_id(cheltuiala) != get_id(new_cheltuiala):
-            new_lst_cheltuiala.append(cheltuiala)
-        else:
-            new_lst_cheltuiala.append(new_cheltuiala)
-    return new_lst_cheltuiala
+        if get_id(cheltuiala) == id:
+            return cheltuiala
+    return None
 
-def read(lst_cheltuieli, id_ap_cheltuiala = None):
+def edit_cheltuiala(cheltuieli, id, nr_ap_new, suma_new, data_new, tipul_new):
     '''
-    Functia verifica daca apare in lista de cheltuieli o anumita cheltuiala, cu id dat
-    :param lst_cheltuieli:O lista de cheltueieli
-    :param id_ap_cheltuiala:Numarul apartamentului a cheltuielii
-    :return:Returneaza cheltuiala cautata (daca exista in lista) sau toata lista daca nr_ap_cheltuiala = None
+    Editarea cheltuieli cu idul id si aruncarea unei erori ValueError in cazul in care fieldurile nu sunt
+    corecte
+    :param cheltuieli:
+    :param id:
+    :param nr_ap_new:
+    :param suma_new:
+    :param data_new:
+    :param tipul_new:
+    :return:
     '''
-    cheltuiala_cu_nr_ap = None
-    for cheltuiala in lst_cheltuieli:
-        if get_id(cheltuiala) == id_ap_cheltuiala: #am gasit cheltuiala
-            cheltuiala_cu_nr_ap = cheltuiala
-    if cheltuiala_cu_nr_ap:
-        return cheltuiala_cu_nr_ap
-    return lst_cheltuieli#nu am gasit cheltuiala
+    id, nr_ap_new, suma_new, data_new, tipul_new = validate_cheltuiala(id, nr_ap_new, suma_new, data_new, tipul_new)
+    updated_list = deepcopy(cheltuieli)
+    for cheltuiala in updated_list:
+        if get_id(cheltuiala) == id:
+            set_nr_ap(cheltuiala, nr_ap_new)
+            set_suma(cheltuiala, suma_new)
+            set_data(cheltuiala, data_new)
+            set_tipul(cheltuiala, tipul_new)
+    return updated_list
+
+
+def add_cheltuiala(cheltuieli, id, nr_ap, suma, data, tipul):
+    '''
+    Adaugam in memorie, in lista de cheltuieli o cheltuiala formata
+    din fieldurile: id, nr_ap, suma, data, tipul, an_introducere
+    :param cheltuieli: lista de cheltuieli
+    :param id: string
+    :param nr_ap: string
+    :param suma: string
+    :param data: string
+    :param tipul: string
+    :return:
+    '''
+
+    id, nr_ap, suma, data, tipul = validate_cheltuiala(id, nr_ap, suma, data, tipul)
+    cheltuiala = create_cheltuiala(id, nr_ap, suma, data, tipul)
+    return cheltuieli + [cheltuiala]
+
+def delete_cheltuiala(cheltuieli, id):
+    '''
+    :param cheltuieli:
+    :param id:
+    :return:
+    '''
+    result_list = [cheltuiala for cheltuiala in cheltuieli if check_id(cheltuiala, id)]
+    return result_list
+
+def check_id(cheltuiala, id):
+    return get_id(cheltuiala)!=id

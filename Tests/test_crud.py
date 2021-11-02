@@ -1,62 +1,59 @@
-from Domain.cheltuiala import create_cheltuiala, get_id
-from Logic.crud import adaugare, stergere, modif
-from Logic.crud import read
+from Logic.crud import add_cheltuiala, edit_cheltuiala, find_cheltuiala, delete_cheltuiala
+from Domain.cheltuiala import create_cheltuiala, get_id, get_nr_ap, get_suma, get_data, get_tipul
 
-def get_data():
-    return [
-        create_cheltuiala(1, 1, 250, '12.10.2002', 'intretinere'),#Primul e ID-ul, al DOILEA e Numarul Apartamentului!
-        create_cheltuiala(2, 2, 100, '12.10.2012', 'intretinere'),
-        create_cheltuiala(3, 3, 175, '10.10.2002', 'alte cheltuieli'),
-        create_cheltuiala(4, 4, 323.0, '07.07.2020', 'canal'),
-        create_cheltuiala(5, 5, 123.3, '08.12.2010', 'alte cheltuieli')
-        ]
 
-def test_adaugare():
-    lst_cheltuieli = get_data()
-    cheltuiala_nou = (6, 6, 222, '12.10.2002', 'canal')
-    new_cheltuiala = create_cheltuiala(*cheltuiala_nou)
-    new_lst_cheltuieli = adaugare(lst_cheltuieli, *cheltuiala_nou)
-    assert len(new_lst_cheltuieli) == len(lst_cheltuieli) + 1
+def test_add_cheltuiala():
+    cheltuieli = []
+    cheltuiala_adaugata = create_cheltuiala('12389', 1, 123.6, '12.12.2020', 'canal')
+    cheltuieli = add_cheltuiala(cheltuieli, '12389', 1, 123.6, '12.12.2020', 'canal')
+    assert len(cheltuieli) == 1
+    assert cheltuieli[0] == cheltuiala_adaugata
+    assert get_id(cheltuieli[0]) == '12389'
+    assert get_nr_ap(cheltuieli[0]) == 1
+    assert get_suma(cheltuieli[0]) == 123.6
+    assert get_data(cheltuieli[0]) == '12.12.2020'
+    assert get_tipul(cheltuieli[0]) == 'canal'
 
-    gasit = False
-    for cheltuiala in lst_cheltuieli:
-        if cheltuiala == new_cheltuiala:
-            gasit = True
-    assert gasit == False # nu apare in lista veche, e ok
+    cheltuieli = add_cheltuiala(cheltuieli, '123', 2, 234.4, '01.09.2019', 'intretinere')
+    cheltuiala_adaugata_2 = create_cheltuiala('123', 2, 234.4, '01.09.2019', 'intretinere')
+    assert len(cheltuieli) == 2
+    assert cheltuieli[0] == cheltuiala_adaugata
+    assert cheltuieli[1] == cheltuiala_adaugata_2
 
-    gasit = False
-    for cheltuiala in new_lst_cheltuieli:
-        if cheltuiala == new_cheltuiala:
-            gasit = True
-    assert  gasit == True
 
-def test_read():
-    lst_cheltuieli = get_data()
-    nr_apartament = lst_cheltuieli[2] # sau direct nr_apartament = 3, a 3 a cheltuiala din lista(care, evident, se afla in lista)
-    caut_cheltuiala = read(lst_cheltuieli, get_id(nr_apartament))
-    assert caut_cheltuiala in lst_cheltuieli
-    assert read(lst_cheltuieli, None) == lst_cheltuieli
+def test_edit_cheltuiala():
+    p1 = create_cheltuiala('12389', 1, 123.6, '12.12.2020', 'canal')
+    p2 = create_cheltuiala('12389', 1, 245.7, '12.12.2020', 'canal')
+    cheltuieli = [p1, p2]
+    assert len(cheltuieli) == 2
+    cheltuieli = edit_cheltuiala(cheltuieli, '12389', 1, 567.9, '12.12.2020', 'canal')
+    assert len(cheltuieli) == 2
+    p1_new = find_cheltuiala(cheltuieli, '12389')
+    assert get_id(p1_new) == '12389'
+    assert get_nr_ap(p1_new) == 1
+    assert get_suma(p1_new) == 567.9
+    assert get_data(p1_new) == '12.12.2020'
+    assert get_tipul(p1_new) == 'canal'
 
-def test_modif():
-    lst_cheltuieli = get_data()
-    schimbat_cheltuiala = (3, 3, 375, '12.10.2002', 'intretinere')
-    new_cheltuiala = create_cheltuiala(*schimbat_cheltuiala)
-    new_lst_cheltuieli = modif(lst_cheltuieli, new_cheltuiala)
-    assert len(new_lst_cheltuieli) == len(lst_cheltuieli)#evident, am modificat o cheltuiala, deci au aceeasi lungime
-    assert new_cheltuiala not in lst_cheltuieli
-    assert new_cheltuiala in new_lst_cheltuieli
+    try:
+        cheltuieli = edit_cheltuiala(cheltuieli, '12389', '', 'cheltuiala new', 'jhdfsj', '-2154')
+        assert False
+    except ValueError:
+        assert True
 
-def test_stergere():
-    lst_cheltuieli = get_data()
-    id_ap = 3
-    new_lst_cheltuiala = stergere(lst_cheltuieli, id_ap)
-    assert len(new_lst_cheltuiala) == len(lst_cheltuieli)- 1
-    aparitie_cheltuiala = read(lst_cheltuieli, id_ap)
-    assert aparitie_cheltuiala not in new_lst_cheltuiala
-    assert aparitie_cheltuiala in lst_cheltuieli
+def test_delete_cheltuiala():
+    p1 = create_cheltuiala('12389', 1, 123.6, '12.12.2020', 'canal')
+    p2 = create_cheltuiala('12325', 4, 300.6, '12.09.2020', 'intretinere')
+    cheltuieli = [p1, p2]
+    assert len(cheltuieli) == 2
+    cheltuieli = delete_cheltuiala(cheltuieli, '12389')
+    assert len(cheltuieli) == 1
+    cheltuieli = delete_cheltuiala(cheltuieli, '12d456')
+    assert len(cheltuieli) == 1
 
-def test_crud():
-    test_modif()
-    test_read()
-    test_adaugare()
-    test_stergere()
+
+
+
+
+
+
