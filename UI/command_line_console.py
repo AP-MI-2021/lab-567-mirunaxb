@@ -43,8 +43,7 @@ def run_comenzi(cheltuieli):
                 except IndexError as ie:
                     print(f"Eroare: {ie}")
             elif action[0] == 'delete':
-                cheltuieli_new = delete_cheltuiala(cheltuieli, action[1])
-                return cheltuieli_new
+                cheltuieli = delete_cheltuiala(cheltuieli, action[1])
             elif action[0] == 'showall':
                 show_all(cheltuieli)
             elif action[0] == 'exit':
