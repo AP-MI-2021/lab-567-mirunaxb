@@ -62,8 +62,8 @@ def delete_cheltuiala(cheltuieli, id):
     :param id:
     :return:
     '''
-    result_list = [cheltuiala for cheltuiala in cheltuieli if check_id(cheltuiala, id)]
+    result_list = []
+    for cheltuiala in cheltuieli:
+        if get_id(cheltuiala) != id:
+            result_list.append(cheltuiala)
     return result_list
-
-def check_id(cheltuiala, id):
-    return get_id(cheltuiala)!=id

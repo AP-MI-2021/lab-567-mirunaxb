@@ -1,5 +1,6 @@
 from Domain.cheltuiala import to_str
 from Logic.crud import add_cheltuiala, edit_cheltuiala, delete_cheltuiala
+from Logic.operatiuni import stergere_toate_cheltuieli
 
 def print_meniu():
     print('''
@@ -23,7 +24,7 @@ def print_crud_meniu():
 def print_operatiuni_meniu():
     print('''
     MENIU Operatiuni
-    1. Reducerea nr de tipul pentru toate prăjiturile care conțin în nr_ap un string dat.
+    1. Stergerea tuturor cheltuielilor unui apartament dat.
     2. Afișarea tuturor prăjiturilor introduse începând cu un an dat.
     3. Determinarea prăjiturii cu cel mai mare număr de tipul din fiecare an al introducerii.
     4. Ordonarea prăjiturilor crescător după raportul preț / tipul.
@@ -75,9 +76,10 @@ def run_crud_ui(cheltuieli):
         :param cheltuieli: lista de cheltuieli
         :return:
         '''
-        id_cheltuiala = int(input("Dati id-ul cheltuielii care se va sterge: "))
+        id_cheltuiala = input("Dati id-ul cheltuielii care se va sterge: ")
+        cheltuieli_new = delete_cheltuiala(cheltuieli, id_cheltuiala)
         print("Stergerea a avut loc cu succes!")
-        return delete_cheltuiala(cheltuieli, id_cheltuiala)
+        return cheltuieli_new
 
     def handle_add_cheltuiala_ui(cheltuieli):
         '''
@@ -127,23 +129,23 @@ def run_operatiuni_ui(cheltuieli):
     :return:
     '''
 
-    def handle_reducere_tipul(cheltuieli):
+    def handle_stergere_toate_cheltuieli(cheltuieli):
         '''
         Reducerea nr de tipul pentru cheltuielile ce contin un string dat de la tastatura
         Cu cat se reduc tipulle se citeste de asemenea de la tastatura
         :param cheltuieli: lista de cheltuieli
         :return:
         '''
-        reducere = int(input("Dati reducerea de tipul"))
-        string_cautare = input("Dati stringul de cautare")
-        cheltuieli = reducere_tipul(cheltuieli, string_cautare, reducere)
+        nr_ap = int(input("Dati numarul apartamentului unde vreti sa stergeti toate cheltuielile: "))
+        cheltuieli = stergere_toate_cheltuieli(cheltuieli, nr_ap)
+        print('Toate cheltuielile pentru apartamentul introdus au fost sterse cu succes!')
         return cheltuieli
 
     while True:
         print_operatiuni_meniu()
         cmd = input("Comanda: ")
         if cmd == '1':
-            cheltuieli = handle_reducere_tipul(cheltuieli)
+            cheltuieli = handle_stergere_toate_cheltuieli(cheltuieli)
         elif cmd == '6':
             break
         else:
