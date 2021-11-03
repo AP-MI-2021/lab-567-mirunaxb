@@ -67,3 +67,15 @@ def delete_cheltuiala(cheltuieli, id):
         if get_id(cheltuiala) != id:
             result_list.append(cheltuiala)
     return result_list
+
+def get_by_id(id, lista):
+    """
+    Gaseste o cheltuiala cu id-ul dat intr-o lista
+    :param id: id-ul apartamentului
+    :param lista: lista de cheltuieli
+    :return: cheltuiala cu id-ul dat din lista, sau None daca aceasta nu exista
+    """
+    for cheltuiala in lista:
+        if get_id(cheltuiala) == id:
+            return cheltuiala
+    return None

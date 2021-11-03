@@ -1,6 +1,6 @@
-from Domain.cheltuiala import to_str
+from Domain.cheltuiala import *
 from Logic.crud import add_cheltuiala, edit_cheltuiala, delete_cheltuiala
-from Logic.operatiuni import stergere_toate_cheltuieli
+from Logic.operatiuni import stergere_toate_cheltuieli, add_value
 
 def print_meniu():
     print('''
@@ -25,13 +25,12 @@ def print_operatiuni_meniu():
     print('''
     MENIU Operatiuni
     1. Stergerea tuturor cheltuielilor unui apartament dat.
-    2. Afișarea tuturor prăjiturilor introduse începând cu un an dat.
-    3. Determinarea prăjiturii cu cel mai mare număr de tipul din fiecare an al introducerii.
-    4. Ordonarea prăjiturilor crescător după raportul preț / tipul.
-    5. Afișarea sumelor prețurilor pentru fiecare an al introducerii.
+    2. Adunarea unei valori la toate cheltuielile dintr-o dată citită.
+    3. Determinarea celei mai mari cheltuieli pentru fiecare tip de cheltuială.
+    4. Ordonarea cheltuielilor descrescător după sumă.
+    5. Afișarea sumelor lunare pentru fiecare apartament.
     6. Inapoi
     ''')
-
 
 def run_crud_ui(cheltuieli):
     '''
@@ -48,6 +47,29 @@ def run_crud_ui(cheltuieli):
         '''
         for cheltuiala in cheltuieli:
             print(to_str(cheltuiala))
+
+    def handle_add_cheltuiala_ui(cheltuieli):
+        '''
+        Adaugam o cheltuiala citita de la tastatura in lista de cheltuieli
+        :param cheltuieli: lista de cheltuieli
+        :return:
+        '''
+        id = input('Intorduceti ID-ul cheltuielii: ')
+        nr_ap = input('Introduceti numarul apartamentului: ')
+        suma = input('Introduceti suma: ')
+        data = input('Introduceti data, pastrand formatul DD.MM.YY: ')
+        tipul = input('Intoduceti tipul cheltuielii, alegand dintre "intretinere", "canal", "alte cheltuieli": ')
+        try:
+            cheltuieli = add_cheltuiala(cheltuieli, id, nr_ap, suma, data, tipul)
+            print('cheltuiala a fost adaugata cu succes')
+            return cheltuieli
+        except ValueError as ve:
+            print("!!! Au aparut erori")
+            print(ve)
+        except:
+            print('Unknown error')
+        finally:
+            pass
 
     def handle_edit_cheltuiala_ui(cheltuieli):
         '''
@@ -81,30 +103,6 @@ def run_crud_ui(cheltuieli):
         print("Stergerea a avut loc cu succes!")
         return cheltuieli_new
 
-    def handle_add_cheltuiala_ui(cheltuieli):
-        '''
-        Adaugam o cheltuiala citita de la tastatura in lista de cheltuieli
-        :param cheltuieli: lista de cheltuieli
-        :return:
-        '''
-        id = input('Intorduceti ID-ul cheltuielii: ')
-        nr_ap = input('Introduceti numarul apartamentului: ')
-        suma = input('Introduceti suma: ')
-        data = input('Introduceti data, pastrand formatul DD.MM.YY: ')
-        tipul = input('Intoduceti tipul cheltuielii, alegand dintre "intretinere", "canal", "alte cheltuieli": ')
-        try:
-            cheltuieli = add_cheltuiala(cheltuieli, id, nr_ap, suma, data, tipul)
-            print('cheltuiala a fost adaugata cu succes')
-            return cheltuieli
-        except ValueError as ve:
-            print("!!! Au aparut erori")
-            print(ve)
-        except:
-            print('Unknown error')
-        finally:
-            pass
-            # codul de aici se executa si daca a fost functia executata cu succes si si daca au aparut erori
-
     while True:
         print_crud_meniu()
         cmd = input("Comanda: ")
@@ -117,7 +115,7 @@ def run_crud_ui(cheltuieli):
         elif cmd == '4':
             handle_show_all(cheltuieli)
         elif cmd == '5':
-            break
+            run_console(cheltuieli)
         else:
             print("Comanda invalida")
 
@@ -141,13 +139,40 @@ def run_operatiuni_ui(cheltuieli):
         print('Toate cheltuielile pentru apartamentul introdus au fost sterse cu succes!')
         return cheltuieli
 
+    def handle_add_value(cheltuieli):
+        '''
+
+        :param cheltuieli:
+        :return:
+        '''
+        data = input("Introduceti data la care doriti sa adaugati o valoare: ")
+        val = float(input("Introduceti valoarea pe care doriti sa o adaugati: "))
+        return add_value(cheltuieli, data, val)
+
+    #def handle_sort_cheltuieli(cheltuieli):
+        #'''
+
+        #:param cheltuieli:
+        #:return:
+        #'''
+        #result_list = sort_cheltuieli(cheltuieli)
+        #return result_list
+
     while True:
         print_operatiuni_meniu()
         cmd = input("Comanda: ")
         if cmd == '1':
             cheltuieli = handle_stergere_toate_cheltuieli(cheltuieli)
+        if cmd == '2':
+            cheltuieli = handle_add_value(cheltuieli)
+        #if cmd == '3':
+            #cheltuieli = handle_biggest_cheltuiala(cheltuieli)
+        #if cmd == '4':
+            #cheltuieli = handle_sort_cheltuieli(cheltuieli)
+        #if cmd == '5':
+            #cheltuieli = handle_show_sumforap(cheltuieli)
         elif cmd == '6':
-            break
+            run_console(cheltuieli)
         else:
             print("Comanda invalida")
 
