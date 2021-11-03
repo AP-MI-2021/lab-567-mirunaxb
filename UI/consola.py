@@ -1,6 +1,8 @@
+import sys
+
 from Domain.cheltuiala import *
 from Logic.crud import add_cheltuiala, edit_cheltuiala, delete_cheltuiala
-from Logic.operatiuni import stergere_toate_cheltuieli, add_value, sort_cheltuieli
+from Logic.operatiuni import add_value, sort_cheltuieli
 
 def print_meniu():
     print('''
@@ -77,11 +79,11 @@ def run_crud_ui(cheltuieli):
         :param cheltuieli: lista de cheltuieli
         :return:
         '''
-        id = input('Dati idul cheltuielii pe care vreti sa o editati')
-        nr_ap = input('Dati nr_aple')
-        suma = input('Dati sumaa')
-        data = input('Dati dataul')
-        tipul = input('Dati numarul de tipul')
+        id = input('Dati ID-ul cheltuielii pe care vreti sa o editati: ')
+        nr_ap = input('Dati nr: ')
+        suma = input('Dati suma: ')
+        data = input('Dati data: ')
+        tipul = input('Dati tipul: ')
         try:
             cheltuieli = edit_cheltuiala(cheltuieli, id, nr_ap, suma, data, tipul)
             print('cheltuiala a fost modificata cu succes')
@@ -126,18 +128,18 @@ def run_operatiuni_ui(cheltuieli):
     :param cheltuieli: lista de cheltuieli
     :return:
     '''
+    #def handle_stergere_toate_cheltuieli(cheltuieli):
 
-    def handle_stergere_toate_cheltuieli(cheltuieli):
-        '''
-        Reducerea nr de tipul pentru cheltuielile ce contin un string dat de la tastatura
-        Cu cat se reduc tipulle se citeste de asemenea de la tastatura
-        :param cheltuieli: lista de cheltuieli
-        :return:
-        '''
-        nr_ap = int(input("Dati numarul apartamentului unde vreti sa stergeti toate cheltuielile: "))
-        cheltuieli_new = stergere_toate_cheltuieli(cheltuieli, nr_ap)
-        print("Toate cheltuielile pentru apartamentul introdus au fost sterse cu succes!")
-        return cheltuieli_new
+        #'''
+        #Reducerea nr de tipul pentru cheltuielile ce contin un string dat de la tastatura
+        #Cu cat se reduc tipulle se citeste de asemenea de la tastatura
+        #:param cheltuieli: lista de cheltuieli
+        #:return:
+        #'''
+        #nr_ap = int(input("Dati numarul apartamentului unde vreti sa stergeti toate cheltuielile: "))
+        #cheltuieli_new = stergere_toate_cheltuieli(cheltuieli, nr_ap)
+        #print("Toate cheltuielile pentru apartamentul introdus au fost sterse cu succes!")
+        #return cheltuieli_new
 
     def handle_add_value(cheltuieli):
         '''
@@ -147,7 +149,9 @@ def run_operatiuni_ui(cheltuieli):
         '''
         data = input("Introduceti data la care doriti sa adaugati o valoare: ")
         val = float(input("Introduceti valoarea pe care doriti sa o adaugati: "))
-        return add_value(cheltuieli, data, val)
+        cheltuieli = add_value(cheltuieli, data, val)
+        print("Valoarea a fost adaugata cu succes!")
+        return cheltuieli
 
     def handle_sort_cheltuieli(cheltuieli):
         '''
@@ -156,14 +160,14 @@ def run_operatiuni_ui(cheltuieli):
         :return:
         '''
         cheltuieli = sort_cheltuieli(cheltuieli)
-        print('Ordonarea s a facut cu succes! ')
+        print('Ordonarea s-a facut cu succes!')
         return cheltuieli
 
     while True:
         print_operatiuni_meniu()
         cmd = input("Comanda: ")
-        if cmd == '1':
-            cheltuieli = handle_stergere_toate_cheltuieli(cheltuieli)
+        #if cmd == '1':
+            #cheltuieli = handle_stergere_toate_cheltuieli(cheltuieli)
         if cmd == '2':
             cheltuieli = handle_add_value(cheltuieli)
         #if cmd == '3':
@@ -179,7 +183,6 @@ def run_operatiuni_ui(cheltuieli):
 
 def run_undo_redo_ui(cheltuieli):
     pass
-
 
 def run_console(cheltuieli):
     '''
@@ -198,6 +201,6 @@ def run_console(cheltuieli):
             run_undo_redo_ui(cheltuieli)
         elif cmd == 'x':
             print("La revedere!")
-            break
+            sys.exit(0)
         else:
             print('Comanda invalida')

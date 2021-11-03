@@ -26,12 +26,11 @@ def test_add_value():
 
 
 def test_ordonare_cheltuieli():
-    pass
     p1 = create_cheltuiala('id2', 1, 120.9, '04.06.2002', 'alte cheltuieli')
     p2 = create_cheltuiala('id2', 6, 98.4, '04.09.2002', 'alte cheltuieli')
     p3 = create_cheltuiala('id1', 7, 453.5, '04.03.2002', 'alte cheltuieli')
 
-    sorted_list = sort_cheltuieli([p1,p2,p3])
+    sorted_list = sort_cheltuieli([p1, p2, p3])
     assert sorted_list[0] == p3
     assert sorted_list[1] == p1
     assert sorted_list[2] == p2

@@ -110,7 +110,7 @@ def set_tipul(cheltuiala, tipul):
 
 
 def to_str(cheltuiala):
-    return f'ID={get_id(cheltuiala)}, nr_ap={get_nr_ap(cheltuiala)}, suma={get_suma(cheltuiala)}'\
+    return f'ID={get_id(cheltuiala)}, nr_ap={get_nr_ap(cheltuiala)}, suma={get_suma(cheltuiala)},'\
         f' data={get_data(cheltuiala)}, tipul={get_tipul(cheltuiala)}'
 
 

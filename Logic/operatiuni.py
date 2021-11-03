@@ -28,7 +28,8 @@ def add_value(cheltuieli, data_cautata, val):
     result = []
     for cheltuiala in cheltuieli:
         if get_data(cheltuiala) == data_cautata:
-            cheltuiala_new = create_cheltuiala(get_id(cheltuiala), get_nr_ap(cheltuiala), float(get_suma(cheltuiala)) + val, get_data(cheltuiala), get_tipul(cheltuiala))
+            cheltuiala_new = create_cheltuiala(get_id(cheltuiala), get_nr_ap(cheltuiala), float(get_suma(cheltuiala)) +
+                                               val, get_data(cheltuiala), get_tipul(cheltuiala))
             result.append(cheltuiala_new)
         else:
             result.append(cheltuiala)
