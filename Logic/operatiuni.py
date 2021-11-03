@@ -1,5 +1,4 @@
-from Domain.cheltuiala import *
-from Logic.crud import delete_cheltuiala
+from Domain.cheltuiala import get_nr_ap, get_data, get_id, get_suma, get_tipul, create_cheltuiala
 
 
 def stergere_toate_cheltuieli(cheltuieli, nr_ap_stergere):
@@ -10,11 +9,13 @@ def stergere_toate_cheltuieli(cheltuieli, nr_ap_stergere):
     :param reducere: int
     :return:
     '''
-    result_list = []
+    result = []
     for cheltuiala in cheltuieli:
         if get_nr_ap(cheltuiala) != nr_ap_stergere:
-            result_list.append(cheltuiala)
-    return result_list
+            result.append(cheltuiala)
+    if len(result) == len(cheltuieli):
+        raise ValueError('Nu exista nici o cheltuiala pentru acest apartament.')
+    return result
 
 def add_value(cheltuieli, data_cautata, val):
     '''
@@ -34,17 +35,15 @@ def add_value(cheltuieli, data_cautata, val):
     return result
 
 def sort_cheltuieli(cheltuieli):
-    #pass
-    """'''
+    '''
     :param cheltuieli:
     :return:
     '''
-    return sorted(cheltuieli, key = lambda cheltuiala: get_suma(cheltuiala))"""
+    return sorted(cheltuieli, key = lambda cheltuiala: get_suma(cheltuiala), reverse = True)
 
 def sorting_criteria(cheltuiala):
-    pass
-    """'''
+    '''
     :param cheltuiala:
     :return:
     '''
-    return get_suma(cheltuiala)"""
+    return get_suma(cheltuiala)

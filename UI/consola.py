@@ -1,6 +1,6 @@
 from Domain.cheltuiala import *
 from Logic.crud import add_cheltuiala, edit_cheltuiala, delete_cheltuiala
-from Logic.operatiuni import stergere_toate_cheltuieli, add_value
+from Logic.operatiuni import stergere_toate_cheltuieli, add_value, sort_cheltuieli
 
 def print_meniu():
     print('''
@@ -135,9 +135,9 @@ def run_operatiuni_ui(cheltuieli):
         :return:
         '''
         nr_ap = int(input("Dati numarul apartamentului unde vreti sa stergeti toate cheltuielile: "))
-        cheltuieli = stergere_toate_cheltuieli(cheltuieli, nr_ap)
-        print('Toate cheltuielile pentru apartamentul introdus au fost sterse cu succes!')
-        return cheltuieli
+        cheltuieli_new = stergere_toate_cheltuieli(cheltuieli, nr_ap)
+        print("Toate cheltuielile pentru apartamentul introdus au fost sterse cu succes!")
+        return cheltuieli_new
 
     def handle_add_value(cheltuieli):
         '''
@@ -149,14 +149,15 @@ def run_operatiuni_ui(cheltuieli):
         val = float(input("Introduceti valoarea pe care doriti sa o adaugati: "))
         return add_value(cheltuieli, data, val)
 
-    #def handle_sort_cheltuieli(cheltuieli):
-        #'''
+    def handle_sort_cheltuieli(cheltuieli):
+        '''
 
-        #:param cheltuieli:
-        #:return:
-        #'''
-        #result_list = sort_cheltuieli(cheltuieli)
-        #return result_list
+        :param cheltuieli:
+        :return:
+        '''
+        cheltuieli = sort_cheltuieli(cheltuieli)
+        print('Ordonarea s a facut cu succes! ')
+        return cheltuieli
 
     while True:
         print_operatiuni_meniu()
@@ -167,16 +168,14 @@ def run_operatiuni_ui(cheltuieli):
             cheltuieli = handle_add_value(cheltuieli)
         #if cmd == '3':
             #cheltuieli = handle_biggest_cheltuiala(cheltuieli)
-        #if cmd == '4':
-            #cheltuieli = handle_sort_cheltuieli(cheltuieli)
+        if cmd == '4':
+            cheltuieli = handle_sort_cheltuieli(cheltuieli)
         #if cmd == '5':
             #cheltuieli = handle_show_sumforap(cheltuieli)
         elif cmd == '6':
             run_console(cheltuieli)
         else:
             print("Comanda invalida")
-
-
 
 def run_undo_redo_ui(cheltuieli):
     pass
