@@ -172,7 +172,7 @@ def run_operatiuni_ui(cheltuieli):
             cheltuieli = handle_add_value(cheltuieli)
         #if cmd == '3':
             #cheltuieli = handle_biggest_cheltuiala(cheltuieli)
-        if cmd == '4':
+        elif cmd == '4':
             cheltuieli = handle_sort_cheltuieli(cheltuieli)
         #if cmd == '5':
             #cheltuieli = handle_show_sumforap(cheltuieli)
