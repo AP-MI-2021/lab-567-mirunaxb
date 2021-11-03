@@ -1,12 +1,12 @@
 def validate_cheltuiala(id, nr_ap, suma, data, tipul):
     '''
-    Validate params for a cheltuiala/cake
+    Validate params for a cheltuiala
     Throws a ValueError if fields are not correct
-    :param id:
-    :param nr_ap:
-    :param suma:
-    :param data:
-    :param tipul:
+    :param id: string
+    :param nr_ap: int
+    :param suma: float
+    :param data: string
+    :param tipul: string
     :return:
     '''
     errors = []

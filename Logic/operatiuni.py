@@ -3,10 +3,9 @@ from Domain.cheltuiala import get_nr_ap, get_data, get_id, get_suma, get_tipul, 
 
 def stergere_toate_cheltuieli(cheltuieli, nr_ap_stergere):
     '''
-    Reducerea tipullor cheltuielilor care au in nr_ap string_de_cautare
-    :param cheltuieli: lista de cheltuieli
-    :param string_de_cautare: string
-    :param reducere: int
+    Stergerea tuturor cheltuielilor pentru un apartament ales.
+    :param cheltuieli: lista
+    :param nr_ap_stergere: int
     :return:
     '''
     result = []
@@ -19,10 +18,10 @@ def stergere_toate_cheltuieli(cheltuieli, nr_ap_stergere):
 
 def add_value(cheltuieli, data_cautata, val):
     '''
-
-    :param cheltuieli:
-    :param data_cautata:
-    :param val:
+    Adaugare valoare (la suma) tuturor cheltuielilor pentru o data aleasa.
+    :param cheltuieli: lista
+    :param data_cautata: string
+    :param val: float
     :return:
     '''
     result = []
@@ -37,7 +36,8 @@ def add_value(cheltuieli, data_cautata, val):
 
 def sort_cheltuieli(cheltuieli):
     '''
-    :param cheltuieli:
+    Sortare cheltuieli descrescator
+    :param cheltuieli: lista
     :return:
     '''
     return sorted(cheltuieli, key = lambda cheltuiala: get_suma(cheltuiala), reverse = True)

@@ -3,6 +3,7 @@ import sys
 from Domain.cheltuiala import *
 from Logic.crud import add_cheltuiala, edit_cheltuiala, delete_cheltuiala
 from Logic.operatiuni import add_value, sort_cheltuieli
+from UI.command_line_console import run_comenzi
 
 def print_meniu():
     print('''
@@ -10,6 +11,7 @@ def print_meniu():
     1. CRUD 
     2. Operatiuni
     3. Undo/Redo
+    n. Catre meniul nou
     x. Iesire
     ''')
 
@@ -44,7 +46,7 @@ def run_crud_ui(cheltuieli):
     def handle_show_all(cheltuieli):
         '''
         Afisare lista de cheltuieli din memorie
-        :param cheltuieli: lista de prajitur
+        :param cheltuieli: lista de cheltuieli
         :return:
         '''
         for cheltuiala in cheltuieli:
@@ -202,5 +204,7 @@ def run_console(cheltuieli):
         elif cmd == 'x':
             print("La revedere!")
             sys.exit(0)
+        elif cmd == "n":
+            run_comenzi(cheltuieli)
         else:
             print('Comanda invalida')
