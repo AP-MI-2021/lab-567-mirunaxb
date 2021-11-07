@@ -2,7 +2,7 @@ import sys
 
 from Domain.cheltuiala import *
 from Logic.crud import add_cheltuiala, edit_cheltuiala, delete_cheltuiala
-from Logic.operatiuni import add_value, sort_cheltuieli
+from Logic.operatiuni import add_value, sort_cheltuieli, stergere_toate_cheltuieli
 from UI.command_line_console import run_comenzi
 
 def print_meniu():
@@ -130,18 +130,18 @@ def run_operatiuni_ui(cheltuieli):
     :param cheltuieli: lista de cheltuieli
     :return:
     '''
-    #def handle_stergere_toate_cheltuieli(cheltuieli):
+    def handle_stergere_toate_cheltuieli(cheltuieli):
 
-        #'''
-        #Reducerea nr de tipul pentru cheltuielile ce contin un string dat de la tastatura
-        #Cu cat se reduc tipulle se citeste de asemenea de la tastatura
-        #:param cheltuieli: lista de cheltuieli
-        #:return:
-        #'''
-        #nr_ap = int(input("Dati numarul apartamentului unde vreti sa stergeti toate cheltuielile: "))
-        #cheltuieli_new = stergere_toate_cheltuieli(cheltuieli, nr_ap)
-        #print("Toate cheltuielile pentru apartamentul introdus au fost sterse cu succes!")
-        #return cheltuieli_new
+        '''
+        Reducerea nr de tipul pentru cheltuielile ce contin un string dat de la tastatura
+        Cu cat se reduc tipulle se citeste de asemenea de la tastatura
+        :param cheltuieli: lista de cheltuieli
+        :return:
+        '''
+        nr_ap = int(input("Dati numarul apartamentului unde vreti sa stergeti toate cheltuielile: "))
+        cheltuieli_new = stergere_toate_cheltuieli(cheltuieli, nr_ap)
+        print("Toate cheltuielile pentru apartamentul introdus au fost sterse cu succes!")
+        return cheltuieli_new
 
     def handle_add_value(cheltuieli):
         '''
@@ -168,9 +168,9 @@ def run_operatiuni_ui(cheltuieli):
     while True:
         print_operatiuni_meniu()
         cmd = input("Comanda: ")
-        #if cmd == '1':
-            #cheltuieli = handle_stergere_toate_cheltuieli(cheltuieli)
-        if cmd == '2':
+        if cmd == '1':
+            cheltuieli = handle_stergere_toate_cheltuieli(cheltuieli)
+        elif cmd == '2':
             cheltuieli = handle_add_value(cheltuieli)
         #if cmd == '3':
             #cheltuieli = handle_biggest_cheltuiala(cheltuieli)

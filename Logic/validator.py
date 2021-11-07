@@ -12,8 +12,12 @@ def validate_cheltuiala(id, nr_ap, suma, data, tipul):
     errors = []
     if id == '':
         errors.append('Id-ul nu poate fi vid')
-    if nr_ap == '':
-        errors.append('Numar apartamentului nu poate fi vid')
+    try:
+        nr_ap = int(nr_ap)
+        if nr_ap == None:
+            errors.append('Numarul apartamentului nu trebuie sa fie vid')
+    except ValueError:
+        errors.append('Numar apartamentului trebuie sa fie intreg')
 
     try:
         suma = float(suma)

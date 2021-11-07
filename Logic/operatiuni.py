@@ -12,7 +12,7 @@ def stergere_toate_cheltuieli(cheltuieli, nr_ap_stergere):
     for cheltuiala in cheltuieli:
         if get_nr_ap(cheltuiala) != nr_ap_stergere:
             result.append(cheltuiala)
-    if len(result) == len(cheltuieli):
+    if len(cheltuieli) == 0:
         raise ValueError('Nu exista nici o cheltuiala pentru acest apartament.')
     return result
 
