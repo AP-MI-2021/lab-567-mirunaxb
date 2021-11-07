@@ -34,6 +34,22 @@ def add_value(cheltuieli, data_cautata, val):
             result.append(cheltuiala)
     return result
 
+def biggest_cheltuiala(cheltuieli):
+    '''
+
+    :param cheltuieli:
+    :return:
+    '''
+    result = {}
+    for cheltuiala in cheltuieli:
+        tipul = get_tipul(cheltuiala)
+        if tipul in result:
+            if get_suma(cheltuiala) > result[tipul]:
+                result[tipul] = get_suma(cheltuiala)
+        else:
+            result[tipul] = get_suma(cheltuiala)
+    return result
+
 def sort_cheltuieli(cheltuieli):
     '''
     Sortare cheltuieli descrescator

@@ -2,7 +2,7 @@ import sys
 
 from Domain.cheltuiala import *
 from Logic.crud import add_cheltuiala, edit_cheltuiala, delete_cheltuiala
-from Logic.operatiuni import add_value, sort_cheltuieli, stergere_toate_cheltuieli
+from Logic.operatiuni import *
 from UI.command_line_console import run_comenzi
 
 def print_meniu():
@@ -155,6 +155,17 @@ def run_operatiuni_ui(cheltuieli):
         print("Valoarea a fost adaugata cu succes!")
         return cheltuieli
 
+    def handle_biggest_cheltuiala(cheltuieli):
+        '''
+
+        :param cheltuieli:
+        :return:
+        '''
+        result = biggest_cheltuiala(cheltuieli)
+        for tipul in result:
+            print("Tipul {} are cheltuiala(suma) maxima: {}".format(tipul, result[tipul]))
+
+
     def handle_sort_cheltuieli(cheltuieli):
         '''
 
@@ -172,8 +183,8 @@ def run_operatiuni_ui(cheltuieli):
             cheltuieli = handle_stergere_toate_cheltuieli(cheltuieli)
         elif cmd == '2':
             cheltuieli = handle_add_value(cheltuieli)
-        #if cmd == '3':
-            #cheltuieli = handle_biggest_cheltuiala(cheltuieli)
+        if cmd == '3':
+            handle_biggest_cheltuiala(cheltuieli)
         elif cmd == '4':
             cheltuieli = handle_sort_cheltuieli(cheltuieli)
         #if cmd == '5':

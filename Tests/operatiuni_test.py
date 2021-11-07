@@ -1,5 +1,5 @@
 from Logic.crud import *
-from Logic.operatiuni import stergere_toate_cheltuieli, add_value, sort_cheltuieli
+from Logic.operatiuni import *
 from Domain.cheltuiala import create_cheltuiala
 
 
@@ -24,6 +24,16 @@ def test_add_value():
     assert get_suma(cheltuieli[1]) == 410
     assert get_suma(cheltuieli[2]) == 108.5
 
+def test_biggest_cheltuiala():
+    lista = []
+    lista = add_cheltuiala(lista, 'id1', 1, 120.9, '04.06.2002', 'canal')
+    lista = add_cheltuiala(lista, 'id2', 6, 98.4, '04.09.2002', 'alte cheltuieli')
+    lista = add_cheltuiala(lista, 'id3', 6, 198.4, '04.09.2002', 'alte cheltuieli')
+    rezultat = biggest_cheltuiala(lista)
+
+    assert len(rezultat) == 2
+    assert rezultat['canal'] == 120.9
+    assert rezultat['alte cheltuieli'] == 198.4
 
 def test_ordonare_cheltuieli():
     p1 = create_cheltuiala('id2', 1, 120.9, '04.06.2002', 'alte cheltuieli')
