@@ -64,3 +64,20 @@ def sorting_criteria(cheltuiala):
     :return:
     '''
     return get_suma(cheltuiala)
+
+def sume_lunare_ap(cheltuieli):
+    '''
+
+    :param cheltuieli:
+    :return:
+    '''
+    result = {}
+    for cheltuiala in cheltuieli:
+        data = get_data(cheltuiala)
+        luna = int(data.split('.')[1])
+        if luna not in result:
+            result[luna] = []
+            result[luna].append(get_suma(cheltuiala))
+        else:
+            result[luna].append(get_suma(cheltuiala))
+    return result

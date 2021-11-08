@@ -176,6 +176,16 @@ def run_operatiuni_ui(cheltuieli):
         print('Ordonarea s-a facut cu succes!')
         return cheltuieli
 
+    def handle_show_sumforap(cheltuieli):
+        '''
+
+        :param cheltuieli:
+        :return:
+        '''
+        result = sume_lunare_ap(cheltuieli)
+        for luna in result:
+            print(f'Pentru luna: {luna} avem lista de sume: {result[luna]}')
+
     while True:
         print_operatiuni_meniu()
         cmd = input("Comanda: ")
@@ -187,8 +197,8 @@ def run_operatiuni_ui(cheltuieli):
             handle_biggest_cheltuiala(cheltuieli)
         elif cmd == '4':
             cheltuieli = handle_sort_cheltuieli(cheltuieli)
-        #if cmd == '5':
-            #cheltuieli = handle_show_sumforap(cheltuieli)
+        if cmd == '5':
+            cheltuieli = handle_show_sumforap(cheltuieli)
         elif cmd == '6':
             run_console(cheltuieli)
         else:

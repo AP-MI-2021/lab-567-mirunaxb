@@ -45,3 +45,14 @@ def test_ordonare_cheltuieli():
     assert sorted_list[1] == p1
     assert sorted_list[2] == p2
 
+def test_sume_lunare_ap():
+    lista = []
+    lista = add_cheltuiala(lista, 'id1', 1, 120.9, '04.06.2002', 'canal')
+    lista = add_cheltuiala(lista, 'id2', 6, 98.4, '04.09.2002', 'alte cheltuieli')
+    lista = add_cheltuiala(lista, 'id3', 6, 198.4, '04.09.2002', 'alte cheltuieli')
+    rezultat_sume = sume_lunare_ap(lista)
+    rezultat = {}
+    rezultat[3] = [100]
+    rezultat[4] = [300, 450, 600, 250]
+    assert len(rezultat) == len(rezultat_sume)
+    assert rezultat == rezultat_sume
