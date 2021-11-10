@@ -1,21 +1,20 @@
 from Domain.cheltuiala import get_nr_ap
-from Logic.crud import add_cheltuiala, edit_cheltuiala
+from Logic.crud import add_cheltuiala, delete_cheltuiala
 from Logic.Undo_Redo import do_undo, do_redo
 
 
-def test_first_undo_redo():
+def test_undo_redo_sep():
     cheltuiala = []
     undo_list = [[]]
     redo_list = []
     cheltuiala = add_cheltuiala(cheltuiala, 'id1', 124, 123, '11-10-2021', 'canal', undo_list, redo_list)
     assert len(cheltuiala) == 1
-    cheltuiala = edit_cheltuiala(cheltuiala, 'id1', 234, 123, '11-10-2021', 'canal', undo_list, redo_list)
-    assert len(cheltuiala) == 1
-    assert get_nr_ap(cheltuiala) == 234
+    cheltuiala = delete_cheltuiala(cheltuiala, 'id1', undo_list, redo_list)
+    assert len(cheltuiala) == 0
     cheltuiala = do_undo(undo_list, redo_list, cheltuiala)
-    assert get_nr_ap(cheltuiala) == 124
+    assert len(cheltuiala) == 1
     cheltuiala = do_redo(undo_list, redo_list, cheltuiala)
-    assert get_nr_ap(cheltuiala) == 234
+    assert len(cheltuiala) == 0
 
 
 def test_undo_redo():
