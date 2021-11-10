@@ -1,7 +1,7 @@
 from Domain.cheltuiala import get_nr_ap, get_data, get_id, get_suma, get_tipul, create_cheltuiala
 
 
-def stergere_toate_cheltuieli(cheltuieli, nr_ap_stergere):
+def stergere_toate_cheltuieli(cheltuieli, nr_ap_stergere, undo_lst, redo_lst):
     '''
     Stergerea tuturor cheltuielilor pentru un apartament ales.
     :param cheltuieli: lista
@@ -14,9 +14,11 @@ def stergere_toate_cheltuieli(cheltuieli, nr_ap_stergere):
             result.append(cheltuiala)
     if len(cheltuieli) == 0:
         raise ValueError('Nu exista nici o cheltuiala pentru acest apartament.')
+    undo_lst.append(cheltuieli)
+    redo_lst.clear()
     return result
 
-def add_value(cheltuieli, data_cautata, val):
+def add_value(cheltuieli, data_cautata, val, undo_lst, redo_lst):
     '''
     Adaugare valoare (la suma) tuturor cheltuielilor pentru o data aleasa.
     :param cheltuieli: lista
@@ -32,6 +34,8 @@ def add_value(cheltuieli, data_cautata, val):
             result.append(cheltuiala_new)
         else:
             result.append(cheltuiala)
+    undo_lst.append(cheltuieli)
+    redo_lst.clear()
     return result
 
 def biggest_cheltuiala(cheltuieli):
@@ -50,12 +54,14 @@ def biggest_cheltuiala(cheltuieli):
             result[tipul] = get_suma(cheltuiala)
     return result
 
-def sort_cheltuieli(cheltuieli):
+def sort_cheltuieli(cheltuieli, undo_lst, redo_lst):
     '''
     Sortare cheltuieli descrescator
     :param cheltuieli: lista
     :return:
     '''
+    undo_lst.append(cheltuieli)
+    redo_lst.clear()
     return sorted(cheltuieli, key = lambda cheltuiala: get_suma(cheltuiala), reverse = True)
 
 def sorting_criteria(cheltuiala):

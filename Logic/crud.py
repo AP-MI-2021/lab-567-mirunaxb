@@ -16,7 +16,26 @@ def find_cheltuiala(cheltuieli, id):
             return cheltuiala
     return None
 
-def edit_cheltuiala(cheltuieli, id, nr_ap_new, suma_new, data_new, tipul_new):
+def add_cheltuiala(cheltuieli, id, nr_ap, suma, data, tipul, undo_lst, redo_lst):
+    '''
+    Adaugam in memorie, in lista de cheltuieli o cheltuiala formata
+    din fieldurile: id, nr_ap, suma, data, tipul, an_introducere
+    :param cheltuieli: lista de cheltuieli
+    :param id: string
+    :param nr_ap: string
+    :param suma: string
+    :param data: string
+    :param tipul: string
+    :return:
+    '''
+
+    id, nr_ap, suma, data, tipul = validate_cheltuiala(id, nr_ap, suma, data, tipul)
+    cheltuiala = create_cheltuiala(id, nr_ap, suma, data, tipul)
+    undo_lst.append(cheltuieli)
+    redo_lst.clear()
+    return cheltuieli + [cheltuiala]
+
+def edit_cheltuiala(cheltuieli, id, nr_ap_new, suma_new, data_new, tipul_new, undo_lst, redo_lst):
     '''
     Editarea cheltuieli cu idul id si aruncarea unei erori ValueError in cazul in care fieldurile nu sunt
     corecte
@@ -36,27 +55,11 @@ def edit_cheltuiala(cheltuieli, id, nr_ap_new, suma_new, data_new, tipul_new):
             set_suma(cheltuiala, suma_new)
             set_data(cheltuiala, data_new)
             set_tipul(cheltuiala, tipul_new)
+    undo_lst.append(cheltuieli)
+    redo_lst.clear()
     return updated_list
 
-
-def add_cheltuiala(cheltuieli, id, nr_ap, suma, data, tipul):
-    '''
-    Adaugam in memorie, in lista de cheltuieli o cheltuiala formata
-    din fieldurile: id, nr_ap, suma, data, tipul, an_introducere
-    :param cheltuieli: lista de cheltuieli
-    :param id: string
-    :param nr_ap: string
-    :param suma: string
-    :param data: string
-    :param tipul: string
-    :return:
-    '''
-
-    id, nr_ap, suma, data, tipul = validate_cheltuiala(id, nr_ap, suma, data, tipul)
-    cheltuiala = create_cheltuiala(id, nr_ap, suma, data, tipul)
-    return cheltuieli + [cheltuiala]
-
-def delete_cheltuiala(cheltuieli, id):
+def delete_cheltuiala(cheltuieli, id, undo_lst, redo_lst):
     '''
     :param cheltuieli:
     :param id:
@@ -66,4 +69,6 @@ def delete_cheltuiala(cheltuieli, id):
     for cheltuiala in cheltuieli:
         if get_id(cheltuiala) != id:
             result_list.append(cheltuiala)
+    undo_lst.append(cheltuieli)
+    redo_lst.clear()
     return result_list
